@@ -27,7 +27,7 @@ int main (int arg, char *argv[]) {
       std::string temp_str = strs.str();
       const char* pchar = (char*) temp_str.c_str();
 
-//      image.setTo(C_BLACK);
+      image.setTo(C_BLACK);
       draw_view(image, i, HEIGHT, WIDTH-9);
       
       cv::imwrite( pchar , image);

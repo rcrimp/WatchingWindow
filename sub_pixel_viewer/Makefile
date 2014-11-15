@@ -8,7 +8,7 @@ INCLUDE_FLAGS=-I$(OCVDIR)/include
 CFLAGS=-c  $(INCLUDE_FLAGS) 
 LDFLAGS= -L$(OCVDIR)/build/lib -lopencv_core -lopencv_highgui -lopencv_imgproc
 
-SOURCES=subPixelVisualiser.cpp
+SOURCES=sub_pixel_viewer.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=a.out
 
