@@ -6,6 +6,10 @@ namespace watching_window
    /* * sets the specified subpixel to the intensity specified */
    void set_sub_pixel(cv::Mat image, int sub_pixel_x, int pixel_y, int intensity)
    {
+      if (pixel_y >= 1080)
+return;//         std::cout << "y oob" << std::endl;
+      if (sub_pixel_x >= 1920*3)
+return;//         std::cout << "x oob" << std::endl;
       cv::Vec3b colour = image.at<cv::Vec3b>(pixel_y, sub_pixel_x / 3);
 
       if (sub_pixel_x % 3 == 0)
@@ -68,7 +72,7 @@ namespace watching_window
          offset = 0;
          w_count++;
          h_count = 0;
-         for (int y = 0; y < HEIGHT; y++){
+         for (int y = 0; y < HEIGHT; y+=2){
             h_count++;
             set_sub_pixel(image, x + offset, y, 255);
             offset = (offset + 1) % 9;
@@ -76,18 +80,18 @@ namespace watching_window
       }
       std::cout << w_count << " " << h_count << std::endl;
 
-/*      w_count = 0;
+      w_count = 0;
       for (int x = (start_x + 5) % 9; x + offset < SP_WIDTH; x += 9){
          offset = 0;
          w_count++;
          h_count = 0;
-         for (int y = 1; y < HEIGHT; y++){
+         for (int y = 1; y < HEIGHT; y+=2){
             h_count++;
             set_sub_pixel(image, x + offset, y, 255);
             offset = (offset + 1) % 9;
          } 
       }   
-  */ std::cout << w_count << " " << h_count << std::endl;
+   std::cout << w_count << " " << h_count << std::endl;
    }
 
    /* edge artifacting */

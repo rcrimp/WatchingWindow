@@ -28,7 +28,7 @@ int main (int arg, char *argv[]) {
       const char* pchar = (char*) temp_str.c_str();
 
 //      image.setTo(C_BLACK);
-      draw_view(image, i, HEIGHT, WIDTH);
+      draw_view(image, i, HEIGHT, WIDTH-9);
       
       cv::imwrite( pchar , image);
       cv::namedWindow("Display");
