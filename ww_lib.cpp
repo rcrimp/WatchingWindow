@@ -6,12 +6,22 @@
 namespace watching_window
 {
    /* * sets the specified subpixel to the intensity specified */
+   static void set_sub_pixel(cv::Mat image, int sub_x, int y, cv::Vec3b col)
+   {
+      cv::Vec3b curr_col = image.at<cv::Vec3b>(y, sub_x / 3);
+      
+      if (sub_x % 3 == 0)
+         curr_col[RED] = col[RED];
+      else if ((sub_x - 1) % 3 == 0)
+         curr_col[GREEN] = col[GREEN];
+      else 
+         curr_col[BLUE] = col[BLUE];
+
+      image.at<cv::Vec3b>(y, sub_x / 3) = curr_col;
+   }
+   
    void set_sub_pixel(cv::Mat image, int sub_pixel_x, int pixel_y, int intensity)
    {
-      if (pixel_y >= 1080)
-return;//         std::cout << "y oob" << std::endl;
-      if (sub_pixel_x >= 1920*3)
-return;//         std::cout << "x oob" << std::endl;
       cv::Vec3b colour = image.at<cv::Vec3b>(pixel_y, sub_pixel_x / 3);
 
       if (sub_pixel_x % 3 == 0)
@@ -79,7 +89,7 @@ return;//         std::cout << "x oob" << std::endl;
     * expects in_images to be 640 x 360
     * expcects out_image to be 1920 x 1080
     */
-   void draw_views(cv::Mat in_images[], cv::Mat out_image) {
+   void draw_views(cv::Mat in_images[9], cv::Mat out_image) {
       for (int x = 0; x < 640; x++){ // in_image width (mask is 1 wide) 
          for (int y = 0; y < 360; y+=3){ // in_image height (mask is 3 high)
             /* draw 27 pixels, the 81 sub pixels */
@@ -88,8 +98,16 @@ return;//         std::cout << "x oob" << std::endl;
 
             for (int xx = 0; xx < 9; xx++){
                for (int yy = 0; yy < 9; yy++){
-                  if (mask[yy][xx] == 0)
-                  set_sub_pixel(out_image, x * 9 + xx, y * 3 + yy, 255);      
+                  int px = yy / 3;
+
+                  cv::Vec3b col = in_images[mask[yy][xx]].at<cv::Vec3b>(y + px, x);
+
+                  // cv::Vec3b colour = image.at<cv::Vec3b>(pixel_y, sub_pixel_x / 3);
+                  // image.at<cv::Vec3b>(pixel_y, sub_pixel_x / 3) = colour;
+
+
+                  // mask[yy][xx]
+                  set_sub_pixel(out_image, x * 9 + xx, y * 3 + yy, col);
                }
             }
          }
@@ -100,8 +118,8 @@ return;//         std::cout << "x oob" << std::endl;
          for (int y = 0; y < HEIGHT / 3; y+=3){ // in_image height (mask is 3 high)
             for (int xx = 0; xx < 9; xx++){
                for (int yy = 0; yy < 9; yy++){
-                  if (mask[yy][xx] == view)
-                  set_sub_pixel(image, x * 9 + xx, y * 3 + yy, 255);      
+                  if (mask[yy][xx] == view) 
+                     set_sub_pixel(image, x * 9 + xx, y * 3 + yy, 255);      
                }
             }
          }

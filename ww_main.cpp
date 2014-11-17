@@ -19,12 +19,22 @@ int main (int arg, char *argv[]) {
 //  edge_artifacting2(image, HEIGHT, WIDTH);
 //  draw_basic_lines(image, HEIGHT, WIDTH);
 //  draw_slants(image, WIDTH, HEIGHT, 29);
-   
-   cv::Mat in_images[0] = {};
+  
+   cv::Mat in_images[9] = {
+      cv::imread("in_images/0.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/1.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/2.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/3.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/4.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/5.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/6.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/7.png", CV_LOAD_IMAGE_COLOR),
+      cv::imread("in_images/8.png", CV_LOAD_IMAGE_COLOR)
+   };
 
    draw_views(in_images, image);
 
-   for (int i = 0; i < 9; i++){
+/*   for (int i = 0; i < 9; i++){
       std::stringstream strs;
       strs << i << ".png";
       std::string temp_str = strs.str();
@@ -37,7 +47,7 @@ int main (int arg, char *argv[]) {
       cv::namedWindow("Display");
       cv::imshow("Display", image);
       cv::waitKey();
-   }
+   }*/
 
    cv::imwrite("test.png", image);
    cv::namedWindow("Display");
