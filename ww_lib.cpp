@@ -1,6 +1,8 @@
 #include <opencv2/opencv.hpp>
 #include "ww_lib.h"
 
+#include <iostream>
+
 namespace watching_window
 {
    /* * sets the specified subpixel to the intensity specified */
@@ -61,37 +63,79 @@ return;//         std::cout << "x oob" << std::endl;
 
    /* CYCLE THROUGH THE VIEWS */
    /* start_x corresponds to the view index */
-   void draw_view(cv::Mat image, int start_x, const int HEIGHT, const int WIDTH){
-      const int SP_WIDTH = WIDTH * 3; 
-      int offset = 0;
+   static const int mask[9][9] = {
+      {1, 3, 5, 7, 0, 2, 4, 6, 8}, 
+      {0, 2, 4, 6, 8, 1, 3, 5, 7},
+      {8, 1, 3, 5, 7, 0, 2, 4, 6},
+      {7, 0, 2, 4, 6, 8, 1, 3, 5},
+      {6, 8, 1, 3, 5, 7, 0, 2, 4},
+      {5, 7, 0, 2, 4, 6, 8, 1, 3},
+      {4, 6, 8, 1, 3, 5, 7, 0, 2},
+      {3, 5, 7, 0, 2, 4, 6, 8, 1},
+      {2, 4, 6, 8, 1, 3, 5, 7, 0},
+   };
 
-      int w_count, h_count;
-      w_count = h_count = 0;
+   /* 
+    * expects in_images to be 640 x 360
+    * expcects out_image to be 1920 x 1080
+    */
+   void draw_views(cv::Mat in_images[], cv::Mat out_image) {
+      for (int x = 0; x < 640; x++){ // in_image width (mask is 1 wide) 
+         for (int y = 0; y < 360; y+=3){ // in_image height (mask is 3 high)
+            /* draw 27 pixels, the 81 sub pixels */
+            /* draw the sub pixel max */
+            /* using the colours in_images[?].colAt(x, y + i) for i in (0, 1, 2) */
 
-      for (int x = start_x % 9; x + offset  < SP_WIDTH; x += 9){
-         offset = 0;
-         w_count++;
-         h_count = 0;
-         for (int y = 0; y < HEIGHT; y+=2){
-            h_count++;
-            set_sub_pixel(image, x + offset, y, 255);
-            offset = (offset + 1) % 9;
-         } 
-      }
-      std::cout << w_count << " " << h_count << std::endl;
-
-      w_count = 0;
-      for (int x = (start_x + 5) % 9; x + offset < SP_WIDTH; x += 9){
-         offset = 0;
-         w_count++;
-         h_count = 0;
-         for (int y = 1; y < HEIGHT; y+=2){
-            h_count++;
-            set_sub_pixel(image, x + offset, y, 255);
-            offset = (offset + 1) % 9;
-         } 
+            for (int xx = 0; xx < 9; xx++){
+               for (int yy = 0; yy < 9; yy++){
+                  if (mask[yy][xx] == 0)
+                  set_sub_pixel(out_image, x * 9 + xx, y * 3 + yy, 255);      
+               }
+            }
+         }
       }   
-   std::cout << w_count << " " << h_count << std::endl;
+   }
+   void draw_view(cv::Mat image, int view, const int HEIGHT, const int WIDTH){
+      for (int x = 0; x < WIDTH / 3; x++){ // in_image width (mask is 1 wide) 
+         for (int y = 0; y < HEIGHT / 3; y+=3){ // in_image height (mask is 3 high)
+            for (int xx = 0; xx < 9; xx++){
+               for (int yy = 0; yy < 9; yy++){
+                  if (mask[yy][xx] == view)
+                  set_sub_pixel(image, x * 9 + xx, y * 3 + yy, 255);      
+               }
+            }
+         }
+      }   
+//      const int SP_WIDTH = WIDTH * 3; 
+//      int offset = 0;
+//
+//      int w_count, h_count;
+//      w_count = h_count = 0;
+//
+//      for (int x = start_x % 9; x + offset  < SP_WIDTH; x += 9){
+//         offset = 0;
+//         w_count++;
+//         h_count = 0;
+//         for (int y = 0; y < HEIGHT; y+=2){
+//            h_count++;
+//            set_sub_pixel(image, x + offset, y, 255);
+//            offset = (offset + 1) % 9;
+//         } 
+//      }
+//      //std::cout << w_count << " " << h_count << std::endl;
+//
+//      w_count = 0;
+//      for (int x = (start_x + 5) % 9; x + offset < SP_WIDTH; x += 9){
+//         offset = 0;
+//         w_count++;
+//         h_count = 0;
+//         for (int y = 1; y < HEIGHT; y+=2){
+//            h_count++;
+//            set_sub_pixel(image, x + offset, y, 255);
+//            offset = (offset + 1) % 9;
+//         } 
+//      }   
+//   //std::cout << w_count << " " << h_count << std::endl;
    }
 
    /* edge artifacting */

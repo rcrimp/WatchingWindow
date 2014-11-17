@@ -19,7 +19,10 @@ int main (int arg, char *argv[]) {
 //  edge_artifacting2(image, HEIGHT, WIDTH);
 //  draw_basic_lines(image, HEIGHT, WIDTH);
 //  draw_slants(image, WIDTH, HEIGHT, 29);
+   
+   cv::Mat in_images[0] = {};
 
+   draw_views(in_images, image);
 
    for (int i = 0; i < 9; i++){
       std::stringstream strs;
@@ -28,7 +31,7 @@ int main (int arg, char *argv[]) {
       const char* pchar = (char*) temp_str.c_str();
 
       image.setTo(C_BLACK);
-      draw_view(image, i, HEIGHT, WIDTH-9);
+      draw_view(image, i, HEIGHT, WIDTH);
       
       cv::imwrite( pchar , image);
       cv::namedWindow("Display");

@@ -31,6 +31,7 @@ namespace watching_window
 
    /* draws a view needs alot of work lol */
    void draw_view(cv::Mat image, int view, const int HEIGHT, const int WIDTH);
+   void draw_views(cv::Mat[], cv::Mat);
 
    /* demonstrates the edge artifacting */
    void edge_artifacting(cv::Mat image, const int HEIGHT, const int WIDTH);
