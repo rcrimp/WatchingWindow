@@ -25,11 +25,11 @@ int main (int argc, char *argv[]) {
    }
 
    /* make these configurable via arguments */
-   int border = 0;
-   int sub_pixel_width = 1;
-   int max_width = 1920;
-   int max_height = 1080;
-   Scalar border_col = Scalar(64, 64, 64);
+   int border = 1;
+   int sub_pixel_width = 5;
+   int max_width = 1280;
+   int max_height = 720;
+   Scalar border_col = Scalar(128, 128, 128);
 
    /* intermediary calculations */
    int pixel_size = 3 * sub_pixel_width; 
