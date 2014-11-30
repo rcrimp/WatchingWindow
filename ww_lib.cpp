@@ -79,7 +79,7 @@ namespace watching_window
         {0, 2, 4, 6, 8, 1, 3, 5, 7}, 
         {8, 1, 3, 5, 7, 0, 2, 4, 6},
         {7, 0, 2, 4, 6, 8, 1, 3, 5},
-        {6, 8, 1, 3, 5, 7, 1, 2, 4},
+        {6, 8, 1, 3, 5, 7, 0, 2, 4},
         {5, 7, 0, 2, 4, 6, 8, 1, 3},
         {4, 6, 8, 1, 3, 5, 7, 0, 2},
         {3, 5, 7, 0, 2, 4, 6, 8, 1},
@@ -206,7 +206,7 @@ namespace watching_window
       for (int y = 0; y <  HEIGHT; y+=6){ // y of line
          for (int yy = 0; yy < 6; yy+=2){  // y of line segment
             // change this to yy < 3 by making the line below draw two pixels
-            cv::line(i, cv::Point(x, yy + y), cv::Point(x,yy + y + 1), colours[((yy/2) + colour_offset) % 3]);
+            cv::line(i, cv::Point(x, yy + y), cv::Point(x,yy + y), colours[((yy/2) + colour_offset) % 3]);
          }
          x++;
       }

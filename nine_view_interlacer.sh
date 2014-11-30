@@ -1,2 +1,13 @@
 #!/bin/sh
-./nine_view_interlacer.out in_images0/0.png in_images0/1.png in_images0/2.png in_images0/3.png in_images0/4.png in_images0/5.png in_images0/6.png in_images0/7.png in_images0/8.png
+# :%s/foo/bar/g
+./a.out \
+  in_sintel/0.jpg \
+  in_sintel/1.jpg \
+  in_sintel/2.jpg \
+  in_sintel/3.jpg \
+  in_sintel/4.jpg \
+  in_sintel/5.jpg \
+  in_sintel/6.jpg \
+  in_sintel/7.jpg \
+  in_sintel/8.jpg
+
